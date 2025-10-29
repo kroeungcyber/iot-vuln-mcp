@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  iot-vuln-scanner:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: iot-vuln-scanner:latest
+    container_name: iot-vuln-scanner
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+    user: "1000"
+    networks:
+      - iot-scanner-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Optional: Add a monitoring service
+  scanner-monitor:
+    image: redis:alpine
+    container_name: scanner-monitor
+    restart: unless-stopped
+    networks:
+      - iot-scanner-net
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+networks:
+  iot-scanner-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  redis-data:
+    driver: local

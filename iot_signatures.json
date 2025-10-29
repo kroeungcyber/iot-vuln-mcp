@@ -1,0 +1,194 @@
+{
+  "version": "2.1.0",
+  "last_updated": "2024-01-15",
+  "camera_manufacturers": {
+    "hikvision": {
+      "ports": [80, 443, 554, 8000, 8080, 34567],
+      "default_credentials": [
+        {"username": "admin", "password": "12345"},
+        {"username": "admin", "password": "admin"},
+        {"username": "admin", "password": "123456"},
+        {"username": "admin", "password": "1234"}
+      ],
+      "vulnerabilities": [
+        "CVE-2017-7921 - Authentication Bypass",
+        "CVE-2021-36260 - Command Injection", 
+        "CVE-2022-28171 - Buffer Overflow"
+      ],
+      "rtsp_paths": [
+        "/Streaming/Channels/101",
+        "/cam/realmonitor",
+        "live.sdp",
+        "media.amp"
+      ],
+      "web_paths": [
+        "/",
+        "/doc/page/login.asp",
+        "/SDK",
+        "/config"
+      ],
+      "risk_level": "high"
+    },
+    "dahua": {
+      "ports": [80, 443, 554, 37777, 37778, 37779],
+      "default_credentials": [
+        {"username": "admin", "password": "admin"},
+        {"username": "admin", "password": ""},
+        {"username": "admin", "password": "123456"},
+        {"username": "admin", "password": "dahua123"}
+      ],
+      "vulnerabilities": [
+        "CVE-2021-33044 - Authentication Bypass",
+        "CVE-2022-30563 - OS Command Injection",
+        "CVE-2023-25907 - Buffer Overflow"
+      ],
+      "rtsp_paths": [
+        "/cam/realmonitor",
+        "live.sdp", 
+        "media.amp",
+        "/streaming/channels/1"
+      ],
+      "web_paths": [
+        "/",
+        "/cgi-bin/login.cgi",
+        "/RPC2",
+        "/config"
+      ],
+      "risk_level": "high"
+    },
+    "axis": {
+      "ports": [80, 443, 554],
+      "default_credentials": [
+        {"username": "root", "password": "pass"},
+        {"username": "admin", "password": ""},
+        {"username": "operator", "password": ""}
+      ],
+      "vulnerabilities": [
+        "CVE-2018-10660 - Buffer Overflow",
+        "CVE-2021-31986 - SSRF Vulnerability",
+        "CVE-2022-33153 - Authentication Bypass"
+      ],
+      "rtsp_paths": [
+        "/axis-media/media.amp",
+        "live.sdp",
+        "/streaming/axis-cgi/mjpg/video.cgi"
+      ],
+      "web_paths": [
+        "/",
+        "/view/view.shtml",
+        "/axis-cgi",
+        "/admin"
+      ],
+      "risk_level": "medium"
+    },
+    "uniview": {
+      "ports": [80, 443, 554, 34567, 34569],
+      "default_credentials": [
+        {"username": "admin", "password": "123456"},
+        {"username": "admin", "password": "admin"}
+      ],
+      "vulnerabilities": [
+        "CVE-2020-21433 - Authentication Bypass",
+        "CVE-2021-33544 - Command Injection"
+      ],
+      "rtsp_paths": [
+        "/live.sdp",
+        "/media.amp",
+        "/streaming/channels/1"
+      ],
+      "web_paths": [
+        "/",
+        "/login.asp",
+        "/cgi-bin"
+      ],
+      "risk_level": "high"
+    }
+  },
+  "iot_protocols": {
+    "rtsp": {
+      "port": 554,
+      "description": "Real Time Streaming Protocol",
+      "security_risks": ["unencrypted_streams", "weak_authentication", "eavesdropping"],
+      "encrypted_alternative": "RTSPS (RTSP over TLS)"
+    },
+    "onvif": {
+      "port": 80,
+      "description": "ONVIF standard for IP cameras",
+      "security_risks": ["information_disclosure", "weak_ws_security", "xml_injection"],
+      "encrypted_alternative": "HTTPS with WS-Security"
+    },
+    "mqtt": {
+      "port": 1883,
+      "encrypted_port": 8883,
+      "description": "Message Queuing Telemetry Transport",
+      "security_risks": ["unencrypted_communication", "no_authentication", "topic_eavesdropping"],
+      "encrypted_alternative": "MQTTS (MQTT over TLS)"
+    },
+    "http": {
+      "port": 80,
+      "description": "Web interface protocol",
+      "security_risks": ["clear_text_communication", "session_hijacking", "credential_exposure"],
+      "encrypted_alternative": "HTTPS"
+    },
+    "https": {
+      "port": 443,
+      "description": "Secure web interface protocol", 
+      "security_risks": ["weak_ssl_configuration", "certificate_issues", "protocol_vulnerabilities"],
+      "encrypted_alternative": "Proper TLS configuration required"
+    }
+  },
+  "common_vulnerabilities": {
+    "default_credentials": {
+      "severity": "HIGH",
+      "cvss_score": 9.8,
+      "impact": "Full device compromise and unauthorized access",
+      "remediation": "Change default passwords immediately, implement strong password policies",
+      "prevalence": "Very Common"
+    },
+    "unencrypted_streams": {
+      "severity": "MEDIUM",
+      "cvss_score": 5.9, 
+      "impact": "Eavesdropping on video/audio streams, privacy violation",
+      "remediation": "Use encrypted protocols (RTSPS, HTTPS), implement network segmentation",
+      "prevalence": "Common"
+    },
+    "outdated_firmware": {
+      "severity": "HIGH",
+      "cvss_score": 8.2,
+      "impact": "Known exploit vulnerability, remote code execution",
+      "remediation": "Update to latest firmware version, enable automatic updates if available",
+      "prevalence": "Very Common"
+    },
+    "buffer_overflow": {
+      "severity": "CRITICAL", 
+      "cvss_score": 9.0,
+      "impact": "Remote code execution, device takeover",
+      "remediation": "Apply security patches, input validation, code review",
+      "prevalence": "Moderate"
+    },
+    "information_disclosure": {
+      "severity": "MEDIUM",
+      "cvss_score": 5.3,
+      "impact": "Sensitive information exposure, reconnaissance aid",
+      "remediation": "Disable unnecessary services, proper error handling, access controls",
+      "prevalence": "Common"
+    }
+  },
+  "smart_home_protocols": {
+    "zigbee": {
+      "frequency": "2.4GHz",
+      "security_risks": ["weak_encryption", "replay_attacks", "key_extraction"],
+      "security_features": ["AES-128-CCM", "network_key", "frame_counter"]
+    },
+    "zwave": {
+      "frequency": "900MHz", 
+      "security_risks": ["weak_key_exchange", "eavesdropping", "jamming"],
+      "security_features": ["AES-128", "secure_inclusion", "network_key"]
+    },
+    "thread": {
+      "frequency": "2.4GHz",
+      "security_risks": ["routing_attacks", "replay_attacks"],
+      "security_features": ["AES-CCM", "DTLS", "certificate_based_auth"]
+    }
+  }
+}
