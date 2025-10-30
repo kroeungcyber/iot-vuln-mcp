@@ -1,0 +1,263 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "IoT Vulnerability Scanner API",
+    "description": "Security scanning tools for IoT devices, IP cameras, and smart home devices",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "Local development server"
+    },
+    {
+      "url": "https://your-production-domain.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/scan/comprehensive": {
+      "post": {
+        "operationId": "comprehensiveScan",
+        "summary": "Comprehensive IoT vulnerability scan",
+        "description": "Perform a full security assessment of IoT devices including port scanning, service analysis, and vulnerability checks",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "string",
+                    "description": "IP address or hostname of the IoT device to scan"
+                  },
+                  "scan_intensity": {
+                    "type": "string",
+                    "enum": ["quick", "deep", "stealth"],
+                    "default": "quick",
+                    "description": "Scan intensity level - quick for basic checks, deep for comprehensive analysis, stealth for slower detection"
+                  },
+                  "check_credentials": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Test for default credentials on the device"
+                  }
+                },
+                "required": ["target"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful scan results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "target": {
+                      "type": "string"
+                    },
+                    "scan_type": {
+                      "type": "string"
+                    },
+                    "results": {
+                      "type": "object"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scan/camera": {
+      "post": {
+        "operationId": "cameraScan",
+        "summary": "IP camera vulnerability assessment",
+        "description": "Specialized security assessment for IP security cameras with manufacturer-specific vulnerability checks",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "string",
+                    "description": "Camera IP address or hostname"
+                  },
+                  "camera_type": {
+                    "type": "string",
+                    "enum": ["auto", "hikvision", "dahua", "axis", "uniview", "generic"],
+                    "default": "auto",
+                    "description": "Camera manufacturer type for targeted vulnerability checks"
+                  },
+                  "test_streams": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Test RTSP stream security and accessibility"
+                  }
+                },
+                "required": ["target"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Camera scan results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scan/credentials": {
+      "post": {
+        "operationId": "credentialScan",
+        "summary": "Default credential testing",
+        "description": "Test IoT devices for default username/password combinations",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "string",
+                    "description": "Device IP address"
+                  },
+                  "device_type": {
+                    "type": "string",
+                    "description": "Specific device type for targeted credential testing"
+                  },
+                  "protocol": {
+                    "type": "string",
+                    "enum": ["http", "https", "both"],
+                    "default": "both",
+                    "description": "Protocol to test credentials on"
+                  }
+                },
+                "required": ["target"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Credential test results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scan/firmware": {
+      "post": {
+        "operationId": "firmwareScan",
+        "summary": "Firmware vulnerability analysis",
+        "description": "Check firmware versions and known vulnerabilities for IoT devices",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "string",
+                    "description": "Device IP address"
+                  },
+                  "manufacturer": {
+                    "type": "string",
+                    "description": "Device manufacturer for CVE lookup"
+                  },
+                  "check_cves": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Check for known CVEs affecting this device"
+                  }
+                },
+                "required": ["target"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Firmware analysis results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "healthCheck",
+        "summary": "API health check",
+        "description": "Check if the IoT vulnerability scanner API is running",
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "service": {
+                      "type": "string"
+                    },
+                    "mcp_server": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "none": {
+        "type": "http",
+        "scheme": "none"
+      }
+    }
+  },
+  "security": [
+    {
+      "none": []
+    }
+  ]
+}

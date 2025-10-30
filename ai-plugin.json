@@ -1,0 +1,42 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "IoT Vulnerability Scanner",
+  "name_for_model": "iot_vulnerability_scanner",
+  "description_for_human": "Security scanning tools for IoT devices and cameras. Scan for vulnerabilities, test default credentials, and analyze network security.",
+  "description_for_model": "Tools for scanning IoT devices, IP cameras, and smart home devices for security vulnerabilities. Use these tools when users need to assess the security of their IoT devices, check for default credentials, analyze network exposure, or test firmware vulnerabilities. Always include legal warnings and ensure users only scan devices they own or have explicit permission to test.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "http://localhost:8000/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "http://localhost:8000/logo.png",
+  "contact_email": "support@example.com",
+  "legal_info_url": "http://localhost:8000/legal",
+  "instructions": {
+    "usage": [
+      "Use this plugin to scan IoT devices, IP cameras, and smart home devices for security vulnerabilities.",
+      "Always verify that the user has permission to scan the target device before proceeding.",
+      "Include legal warnings about unauthorized scanning in your responses.",
+      "The plugin can perform comprehensive scans, camera-specific assessments, credential testing, and firmware analysis.",
+      "For network-wide scans, ensure the user owns the network or has explicit permission."
+    ],
+    "capabilities": [
+      "Comprehensive IoT vulnerability scanning",
+      "IP camera security assessment",
+      "Default credential testing",
+      "Firmware vulnerability analysis",
+      "Network exposure checking",
+      "RTSP stream security analysis",
+      "Smart home protocol testing"
+    ],
+    "limitations": [
+      "Only scan devices you own or have permission to test",
+      "Network scanning may trigger security alerts",
+      "Some scans may take several minutes to complete",
+      "Results depend on network connectivity and device responsiveness"
+    ]
+  }
+}
