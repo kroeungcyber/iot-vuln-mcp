@@ -17,9 +17,15 @@ class MCPComplianceTester:
     async def test_server_initialization(self) -> bool:
         """Test server starts and initializes correctly"""
         try:
-            # This would normally connect to a running server
-            # For now, we'll test the import and basic structure
+            # Test basic imports and structure
+            import mcp
+            from mcp.server import Server
+            from mcp.server.stdio import stdio_server
+            
+            # Check that we can import the server module
             from server import IoTVulnerabilityScanner
+            
+            # Test basic server creation
             server = IoTVulnerabilityScanner()
             
             # Check server has required attributes
@@ -39,15 +45,11 @@ class MCPComplianceTester:
         """Test tool definitions comply with MCP schema"""
         try:
             from server import IoTVulnerabilityScanner
-            from mcp.types import Tool
             
             server = IoTVulnerabilityScanner()
             
             # Test tool structure
             required_tool_fields = ['name', 'description', 'inputSchema']
-            
-            # This would normally call the list_tools method
-            # For now, we'll validate the tool structure conceptually
             
             # Check that tools are properly defined in the handler
             if not hasattr(server, 'setup_handlers'):

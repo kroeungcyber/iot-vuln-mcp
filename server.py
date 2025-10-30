@@ -17,8 +17,9 @@ import logging
 import hashlib
 import ipaddress
 
-from mcp import Client, Server, types
-from mcp.server import NotificationOptions, ServerOptions
+from mcp.server import Server, NotificationOptions
+from mcp.server.models import InitializationOptions, ServerCapabilities
+import mcp.types as types
 import mcp.server.stdio
 
 # Enhanced logging configuration
@@ -478,4 +479,84 @@ class IoTVulnerabilityScanner:
         test_streams = arguments.get("test_streams", True)
         
         results = [f"📹 IP Camera Vulnerability Assessment for {target}\n"]
-        results.append
+        results.append(f"📷 Camera Type: {camera_type}\n")
+        results.append("="*60 + "\n")
+        
+        # Camera-specific vulnerability checks
+        results.append("\n🔍 CAMERA-SPECIFIC CHECKS:\n")
+        
+        # Add placeholder for camera assessment logic
+        results.append("Camera vulnerability assessment would include:\n")
+        results.append("- Manufacturer-specific vulnerability checks\n")
+        results.append("- RTSP stream security analysis\n")
+        results.append("- Web interface security testing\n")
+        results.append("- Default credential testing\n")
+        results.append("- Firmware version analysis\n")
+        
+        return [types.TextContent(type="text", text="".join(results))]
+
+    # Placeholder methods for other tool implementations
+    async def rtsp_stream_analysis(self, arguments: Dict[str, Any]) -> list[types.TextContent]:
+        return [types.TextContent(type="text", text="RTSP Stream Analysis - Implementation pending")]
+    
+    async def default_credential_test(self, arguments: Dict[str, Any]) -> list[types.TextContent]:
+        return [types.TextContent(type="text", text="Default Credential Test - Implementation pending")]
+    
+    async def firmware_analysis(self, arguments: Dict[str, Any]) -> list[types.TextContent]:
+        return [types.TextContent(type="text", text="Firmware Analysis - Implementation pending")]
+    
+    async def network_exposure_check(self, arguments: Dict[str, Any]) -> list[types.TextContent]:
+        return [types.TextContent(type="text", text="Network Exposure Check - Implementation pending")]
+    
+    async def smart_home_protocol_test(self, arguments: Dict[str, Any]) -> list[types.TextContent]:
+        return [types.TextContent(type="text", text="Smart Home Protocol Test - Implementation pending")]
+    
+    async def security_health_check(self, arguments: Dict[str, Any]) -> list[types.TextContent]:
+        return [types.TextContent(type="text", text="Security Health Check - Implementation pending")]
+    
+    # Placeholder helper methods
+    async def analyze_services(self, target: str, port_scan: str) -> List[str]:
+        return ["Service analysis would be implemented here"]
+    
+    async def check_default_credentials(self, target: str) -> str:
+        return "Default credential check would be implemented here"
+    
+    async def check_rtsp_security(self, target: str) -> str:
+        return "RTSP security check would be implemented here"
+    
+    async def check_web_interface(self, target: str) -> str:
+        return "Web interface check would be implemented here"
+    
+    async def check_firmware_version(self, target: str) -> str:
+        return "Firmware version check would be implemented here"
+    
+    async def generate_risk_summary(self, target: str, scan_results: List[str]) -> str:
+        return "Risk summary would be generated here"
+    
+    async def save_scan_result(self, target: str, scan_type: str, results: str):
+        pass
+
+
+async def main():
+    """Main function to run the MCP server"""
+    scanner = IoTVulnerabilityScanner()
+    await scanner.load_iot_signatures()
+    
+    # Run the MCP server
+    async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
+        await scanner.server.run(
+            read_stream,
+            write_stream,
+            InitializationOptions(
+                server_name="iot-vuln-scanner",
+                server_version="1.0.0",
+                capabilities=scanner.server.get_capabilities(
+                    notification_options=NotificationOptions(),
+                    experimental_capabilities={}
+                )
+            )
+        )
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

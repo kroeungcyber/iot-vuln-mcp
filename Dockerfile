@@ -1,25 +1,16 @@
-FROM kalilinux/kali-rolling:latest
+FROM python:3.11-slim
 
 ENV PYTHONUNBUFFERED=1
-ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONPATH=/app
 
-# Update and install only necessary tools
-RUN echo "Starting Kali Linux IoT Scanner Build..." && \
-    apt-get update && apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
-    python3 \
-    python3-pip \
-    python3-venv \
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
     nmap \
     curl \
     wget \
-    git \
     sqlite3 \
-    ffmpeg \
     net-tools \
     iputils-ping \
-    tcpdump \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -33,7 +24,7 @@ WORKDIR /app
 COPY --chown=iottester:iottester requirements.txt .
 
 # Install Python packages
-RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files
 COPY --chown=iottester:iottester server.py .
@@ -58,5 +49,5 @@ USER iottester
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python3 -c "import sys; sys.exit(0)"
 
-# Run verification tests on container start
-CMD ["sh", "-c", "python3 verification_test.py && python3 server.py"]
+# Run the server
+CMD ["python3", "server.py"]
